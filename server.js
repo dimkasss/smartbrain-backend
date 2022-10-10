@@ -11,11 +11,9 @@ import { handleImage, handleApiCall } from './controllers/image.js';
 const db = knex({
     client: 'pg',
     connection: {
-      host : '127.0.0.1',
-      port : 5432,
-      user : 'postgres',
-      password : 'test',
-      database : 'smartbrain'
+      host : process.env.DATABASE_URL,
+      ssl: true
+      
     }
   });
 
@@ -24,15 +22,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/signin', handleSignin(db, bcrypt))
+app.post('https://afternoon-ridge-48780.herokuapp.com/signin', handleSignin(db, bcrypt))
 
-app.post('/register', handleRegister(db, bcrypt))
+app.post('https://afternoon-ridge-48780.herokuapp.com/register', handleRegister(db, bcrypt))
 
-app.get('/profile/:id', (req, res) => { handleProfileGet(req, res, db)})
+app.get('https://afternoon-ridge-48780.herokuapp.com/profile/:id', (req, res) => { handleProfileGet(req, res, db)})
 
-app.put('/image', handleImage(db))
+app.put('https://afternoon-ridge-48780.herokuapp.com/image', handleImage(db))
 
-app.post('/imageurl', (req, res) => { handleApiCall(req, res)})
+app.post('https://afternoon-ridge-48780.herokuapp.com/imageurl', (req, res) => { handleApiCall(req, res)})
 
 
 app.listen(process.env.PORT || 3000, () => {
